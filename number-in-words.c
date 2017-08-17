@@ -3,13 +3,13 @@
 #include<stdlib.h>
 
 char *zero2Twenty[21] = {
-	"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
-	"Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen",
-	"Nineteen", "Twenty"
+	"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+	"eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen",
+	"nineteen", "twenty"
 };
 
 char *twenty2Ninety[10] = {
-	"", "", "Twenty", "Thirty", "Fourty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninty"
+	"", "", "twenty", "thirty", "fourty", "fifty", "sixty", "seventy", "eighty", "ninty"
 };
 
 typedef struct scale {
@@ -25,6 +25,7 @@ scale unit = {1, ""};
 
 void * allocateMemory(int size) {
 	void *ptr = malloc(size);
+
 	if(ptr == NULL) {
 		printf("%s\n", "Unable to allocate memory ... exiting.");
 		exit(1);
@@ -32,45 +33,49 @@ void * allocateMemory(int size) {
 	return ptr;
 }
 
-char * getString(int numScale) {
-	char *string;
-	char *result;
+char * getWordsFor2DigitNumber(int numScale) {
+	char *wordsFor2DigitNumber;
 
 	if(numScale <= 20) {
-		result = (char *) allocateMemory(strlen(zero2Twenty[numScale]) + 1);
-		result = zero2Twenty[numScale];
+		wordsFor2DigitNumber = (char *) allocateMemory(strlen(zero2Twenty[numScale]) + 1);
+		wordsFor2DigitNumber = zero2Twenty[numScale];
 	} else {
-		int first = numScale / 10;
-		int second = numScale % 10;
-		string = twenty2Ninety[first];
-		if(second > 0) {
-			result = (char *) allocateMemory(strlen(string) + strlen(zero2Twenty[second]) + 1);
-    		strcpy(result, string);
-    		strcat(result, " ");
-			strcat(result, zero2Twenty[second]);
+		int firstDigit = numScale / 10;
+		int secondDigit = numScale % 10;
+
+		char *wordForFirstDigit = twenty2Ninety[firstDigit];
+
+		if(secondDigit > 0) {
+			char *wordForSecondDigit = zero2Twenty[secondDigit];
+			wordsFor2DigitNumber = (char *) allocateMemory(strlen(wordForFirstDigit) + strlen(wordForSecondDigit) + 1);
+			
+    		strcpy(wordsFor2DigitNumber, wordForFirstDigit);
+    		strcat(wordsFor2DigitNumber, " ");
+			strcat(wordsFor2DigitNumber, wordForSecondDigit);
 		} else {
-			result = string;
+			wordsFor2DigitNumber = wordForFirstDigit;
 		}
 	}
-	return result;
+	return wordsFor2DigitNumber;
 }
 
-char * getScaleString(int number, int scale, char *scaleString) {
-	char *string;
-	char *result;
+char * getWordsForScale(int number, int scaleValue, char *scaleName) {
+	char *wordsForScale;
 
-	int numScale = number / scale;
-	if(numScale>0) {
-		string = getString(numScale);
-		result = allocateMemory(strlen(string) + strlen(scaleString) + 1);
-    	strcpy(result, string);
-    	strcat(result, " ");
-    	strcat(result, scaleString);
-    	strcat(result, " ");
+	int twoDigitScaleNumber = number / scaleValue;
+
+	if(twoDigitScaleNumber > 0) {
+		char *twoDigitScaleWord = getWordsFor2DigitNumber(twoDigitScaleNumber);
+		wordsForScale = allocateMemory(strlen(twoDigitScaleWord) + strlen(scaleName) + 1);
+
+    	strcpy(wordsForScale, twoDigitScaleWord);
+    	strcat(wordsForScale, " ");
+    	strcat(wordsForScale, scaleName);
+    	strcat(wordsForScale, " ");
 	} else {
-		result = "";
+		wordsForScale = "";
 	}
-	return result;
+	return wordsForScale;
 }
 
 int getLength(int number) {
@@ -91,19 +96,19 @@ char * getNumberInWords(int number) {
 		return "Zero";
 	}
 
-	char *croreString = getScaleString(number, crore.value, crore.name);
+	char *croreString = getWordsForScale(number, crore.value, crore.name);
 	number %= crore.value;
 
-	char *lakhString = getScaleString(number, lakh.value, lakh.name);
+	char *lakhString = getWordsForScale(number, lakh.value, lakh.name);
 	number %= lakh.value;
 
-	char *thousandString = getScaleString(number, thousand.value, thousand.name);
+	char *thousandString = getWordsForScale(number, thousand.value, thousand.name);
 	number %= thousand.value;
 
-	char *hundredString = getScaleString(number, hundred.value, hundred.name);
+	char *hundredString = getWordsForScale(number, hundred.value, hundred.name);
 	number %= hundred.value;
 
-	char *unitString = getScaleString(number, unit.value, unit.name);
+	char *unitString = getWordsForScale(number, unit.value, unit.name);
 
 	char *result = (char *) allocateMemory(strlen(croreString) + strlen(lakhString) + strlen(thousandString) + strlen(hundredString) + strlen(unitString) + 1);
 
@@ -130,13 +135,4 @@ int main() {
 	return 0;
 }
 
-/*
-Problem:
-Input int will be in the range 0 to 999999999 (both inclusive).
-Output will be a String in crores, lakhs, thousands, hundreds system.
-Examples:
-Input: 5
-Output: five
-Input: 111111111
-Output: eleven crore eleven lakh eleven thousand one hundred eleven
-*/
+/* Problem: Input int will be in the range 0 to 999999999 (both inclusive). Output will be a String in crores, lakhs, thousands, hundreds system. Examples: Input: 5, Output: five, Input: 111111111, Output: eleven crore eleven lakh eleven thousand one hundred eleven */
