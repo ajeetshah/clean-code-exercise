@@ -96,29 +96,29 @@ char * getNumberInWords(int number) {
 		return "Zero";
 	}
 
-	char *croreString = getWordsForScale(number, crore.value, crore.name);
+	char *croreInWords = getWordsForScale(number, crore.value, crore.name);
 	number %= crore.value;
 
-	char *lakhString = getWordsForScale(number, lakh.value, lakh.name);
+	char *lakhInWords = getWordsForScale(number, lakh.value, lakh.name);
 	number %= lakh.value;
 
-	char *thousandString = getWordsForScale(number, thousand.value, thousand.name);
+	char *thousandInWords = getWordsForScale(number, thousand.value, thousand.name);
 	number %= thousand.value;
 
-	char *hundredString = getWordsForScale(number, hundred.value, hundred.name);
+	char *hundredInWords = getWordsForScale(number, hundred.value, hundred.name);
 	number %= hundred.value;
 
-	char *unitString = getWordsForScale(number, unit.value, unit.name);
+	char *unitInWords = getWordsForScale(number, unit.value, unit.name);
 
-	char *result = (char *) allocateMemory(strlen(croreString) + strlen(lakhString) + strlen(thousandString) + strlen(hundredString) + strlen(unitString) + 1);
+	char *numberInWords = (char *) allocateMemory(strlen(croreInWords) + strlen(lakhInWords) + strlen(thousandInWords) + strlen(hundredInWords) + strlen(unitInWords) + 1);
 
-	strcpy(result, croreString);
-	strcat(result, lakhString);
-	strcat(result, thousandString);
-	strcat(result, hundredString);
-	strcat(result, unitString);
+	strcpy(numberInWords, croreInWords);
+	strcat(numberInWords, lakhInWords);
+	strcat(numberInWords, thousandInWords);
+	strcat(numberInWords, hundredInWords);
+	strcat(numberInWords, unitInWords);
 	
-	return result;
+	return numberInWords;
 }
 
 int main() {
