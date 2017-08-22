@@ -10,11 +10,11 @@ public class NumberToText {
 				"Four"), FIVE(5, "Five"), SIX(6, "Six"), SEVEN(7,
 						"Seven"), EIGHT(8, "Eight"), NINE(9,
 								"Nine"), TEN(10, "Ten"), ELEVEN(11,
-										"Eleven"), TWELVE(12, "Tweleve"),THIRTEEN(13, "Thirteen"), FOURTEEN(14, "Fourteen"), FIFTEEN(15,
+										"Eleven"), TWELVE(12, "Twelve"),THIRTEEN(13, "Thirteen"), FOURTEEN(14, "Fourteen"), FIFTEEN(15,
 												"Fifteen"), SIXTEEN(16, "Sixteen"), SEVENTEEN(17,
 														"Seventeen"), EIGHTEEN(18, "Eighteen"), NINETEEN(19,
 																"Nineteen"), TWENTY(20, "Twenty"), THIRTY(30, "Thirty"), FORTY(40, "Forty")
-		, FIFTY(50, "Fifty"), SIXTY(60, "Sixty"), SEVENTY(70, "Seventy"), EIGHTY(80, "Eighty"), NINTY(90, "Ninty");
+		, FIFTY(50, "Fifty"), SIXTY(60, "Sixty"), SEVENTY(70, "Seventy"), EIGHTY(80, "Eighty"), NINTY(90, "Ninety");
 		private Number(int code, String value) {
 			this.code = code;
 			this.value = value;
@@ -40,20 +40,23 @@ public class NumberToText {
 			return "";
 		}
 	}
-	public String integerNumberToTextConversion(int number){
+	public String convert(int number){
 		if(checkNumberValidation(number)){
-			return "number out of range";
+			return "no result";
 		}
 		else if(number==0){
 			return "zero";
 		}
 		else{
-			return numberToTextConversion(number).toLowerCase();
+			return numberToTextConversion(number).trim().toLowerCase();
 		}
 	}
 	public String numberToTextConversion(int number){
 		
 		int numberOfDigits=countDigit(number);
+		if(number==0){
+			return "";
+		}
 		switch(numberOfDigits){
 		case 1:
 			return displayOneDigitNumberIntoText(number);
@@ -91,7 +94,7 @@ public class NumberToText {
 	public String displayTwoDigitNumberIntoText(int number){
 		
 		if(number>20&&number%10!=0){ //21
-			return Number.getValueByCode(number-number%10)+numberToTextConversion(number-(number/10)*10);
+			return Number.getValueByCode(number-number%10)+" "+numberToTextConversion(number-(number/10)*10);
 		}else{
 			return Number.getValueByCode(number);
 		}
@@ -99,7 +102,7 @@ public class NumberToText {
 	}
 	
 	public String displayThreeDigitNumberIntoText(int number){
-		return displayOneDigitNumberIntoText((number/100))+" "+"hunderd"+" "+numberToTextConversion(number-(number/100)*100);
+		return displayOneDigitNumberIntoText((number/100))+" "+"hundred"+" "+numberToTextConversion(number-(number/100)*100);
 	}
 	
 	public String displayFourDigitNumberIntoText(int number){ 
@@ -111,10 +114,10 @@ public class NumberToText {
 	}
 	
 	public String displaySixDigitNumberIntoText(int number){ 
-		return displayOneDigitNumberIntoText((number/100000))+" "+"lac"+" "+numberToTextConversion(number-(number/100000)*100000);
+		return displayOneDigitNumberIntoText((number/100000))+" "+"lakh"+" "+numberToTextConversion(number-(number/100000)*100000);
 	}
 	public String displaySevenDigitNumberIntoText(int number){ 
-		return displayTwoDigitNumberIntoText((number/100000))+" "+"lac"+" "+numberToTextConversion(number-(number/100000)*100000);
+		return displayTwoDigitNumberIntoText((number/100000))+" "+"lakh"+" "+numberToTextConversion(number-(number/100000)*100000);
 	}
 	
 	public String displayEightDigitNumberIntoText(int number){
@@ -130,7 +133,7 @@ public class NumberToText {
 		System.out.println("enter an integer");
 		int myint = keyboard.nextInt();
 		NumberToText numberToText=new NumberToText();
-		System.out.println(numberToText.integerNumberToTextConversion(myint));
+		System.out.println(numberToText.convert(myint));
 	}
 
 }
