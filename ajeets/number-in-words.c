@@ -8,7 +8,7 @@ char *zero2Twenty[21] = {
 };
 
 char *twenty2Ninety[10] = {
-	"", "", "twenty", "thirty", "fourty", "fifty", "sixty", "seventy", "eighty", "ninety"
+	"", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"
 };
 
 typedef struct scale {
@@ -116,9 +116,9 @@ char * getWordsForScale(int number, int scaleValue, char *scaleName) {
 
 char * getNumberInWords(int number) {
 	if(number < 0 ) {
-		return "Invalid number: Negative number";
+		return "no result";
 	} else if(getLength(number) > 9) {
-		return "Invalid number: Too many digits";
+		return "no result";
 	} else if(number == 0) {
 		return "zero";
 	}
