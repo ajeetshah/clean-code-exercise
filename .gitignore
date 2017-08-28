@@ -54,3 +54,7 @@ dkms.conf
 # Class files
 *.class
 
+# Idea IntelliJ Files
+*.idea/*
+*.iml
+
