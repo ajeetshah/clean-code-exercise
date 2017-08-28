@@ -65,8 +65,9 @@ class NumberConverterAmerican {
             result += SPACE + NumberConverterIndian.convert(numberUnderThisScale) + SPACE + HUNDRED;
             number %= StringConstants.stringMap.get("hundred");
         }
-        if(number > 0) {
-            numberUnderThisScale = (int)number;
+        
+        numberUnderThisScale = (int) number;
+        if(numberUnderThisScale > 0) {
             result += SPACE + NumberConverterIndian.convert(numberUnderThisScale);
         }
 
