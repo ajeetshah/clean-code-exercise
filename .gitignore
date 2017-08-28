@@ -55,6 +55,7 @@ dkms.conf
 *.class
 
 # Idea IntelliJ Files
-*.idea/*
-*.iml
+*/**/.idea/*
+*/**/*.iml
+*/**/out/*
 
